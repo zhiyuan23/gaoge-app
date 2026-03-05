@@ -1,0 +1,22 @@
+<template>
+  <view class="page">
+    <view class="flex-center">
+      \{{ pageTitle }}
+    </view>
+  </view>
+</template>
+
+<script setup lang="ts">
+
+// 页面加载逻辑 (uniapp 推荐使用 onLoad 获取参数)
+onLoad((options) => {
+  console.log('Page onLoad:', options)
+})
+
+/**
+ * 处理业务逻辑
+ */
+const initData = () => {
+  // {{camelCase name}}Store.fetchData()
+}
+</script>

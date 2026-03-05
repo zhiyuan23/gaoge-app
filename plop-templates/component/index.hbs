@@ -1,0 +1,30 @@
+<template>
+  <view class="{{kebabCase name}}" @click="handleAction">
+    <view>\{{ label }}</view>
+    <view>当前状态: \{{ modelValue }}</view>
+  </view>
+</template>
+
+<script setup lang="ts">
+const {
+  label = '{{properCase name}} Component',
+} = defineProps<{
+  label?: string
+}>()
+
+const emit = defineEmits<{
+  click: [id: number]
+}>()
+
+const modelValue = defineModel<boolean>({ default: false })
+
+onMounted(() => {
+  // console.log('{{properCase name}} mounted')
+})
+
+const handleAction = () => {
+  modelValue.value = !modelValue.value
+
+  emit('click', Date.now())
+}
+</script>

@@ -1,0 +1,47 @@
+const use{{ properCase name }}Store = defineStore(
+  '{{ camelCase name }}',
+  () => {
+    const count = ref(0)
+    const list = ref<any[]>([])
+    const loading = ref(false)
+
+    const doubleCount = computed(() => count.value * 2)
+
+    const increment = () => {
+      count.value++
+    }
+
+    const fetchData = async () => {
+      if (loading.value) return
+      loading.value = true
+      try {
+        // const res = await apiGetList()
+        // list.value = res.data
+      }
+      catch (error) {
+        console.error('{{ properCase name }}Store fetchData Error:', error)
+      }
+      finally {
+        loading.value = false
+      }
+    }
+
+    const reset = () => {
+      count.value = 0
+      list.value = []
+      loading.value = false
+    }
+
+    return {
+      count,
+      list,
+      loading,
+      doubleCount,
+      increment,
+      fetchData,
+      reset
+    }
+  },
+)
+
+export default use{{ properCase name }}Store
