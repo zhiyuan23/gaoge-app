@@ -67,5 +67,7 @@ export default {
     'selector-class-pattern': '^[a-z][a-z0-9\\-]*(__[a-z0-9\\-]+)?$', // 允许 BEM
     'at-rule-no-deprecated': null,
     'declaration-property-value-no-unknown': null,
+    // 允许旧式 rgba/hsla 语法（兼容 TDesign 主题文件）
+    'color-function-notation': 'legacy',
   },
 }

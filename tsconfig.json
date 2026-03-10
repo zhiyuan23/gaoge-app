@@ -28,7 +28,7 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "node_modules/tdesign-uniapp/global.d.ts"
+    "node_modules/@tdesign-uniapp/global.d.ts"
   ],
   "exclude": ["dist", "node_modules", "uni_modules"]
 }

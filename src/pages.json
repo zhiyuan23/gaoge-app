@@ -1,14 +1,38 @@
 {
   "easycom": {
     "custom": {
-      "^t-(.*)": "tdesign-uniapp/$1/$1.vue"
+      "^t-(.*)": "@tdesign/uniapp/$1/$1.vue"
     }
   },
   "pages": [
     {
+      "path": "pages/schedule/index",
+      "style": {
+        "navigationBarTitleText": "赛历"
+      }
+    },
+    {
       "path": "pages/home/index",
       "style": {
         "navigationBarTitleText": "高歌体育"
+      }
+    },
+    {
+      "path": "pages/player/index",
+      "style": {
+        "navigationBarTitleText": "球员"
+      }
+    },
+    {
+      "path": "pages/team/index",
+      "style": {
+        "navigationBarTitleText": "球队"
+      }
+    },
+    {
+      "path": "custom-tab-bar/index",
+      "style": {
+        "navigationStyle": "custom"
       }
     }
   ],
@@ -32,12 +56,28 @@
       ]
     }
   ],
-  "preloadRule": {
-    "pages/home/index": {
-      "network": "all",
-      "packages": ["pages/common"]
-    }
+  "preloadRule": {},
+
+  "tabBar": {
+    "custom": true,
+    "color": "#000000",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/schedule/index",
+        "text": "赛历"
+      },
+      {
+        "pagePath": "pages/player/index",
+        "text": "球员"
+      },
+      {
+        "pagePath": "pages/team/index",
+        "text": "球队"
+      }
+    ]
   },
+
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "高歌体育",

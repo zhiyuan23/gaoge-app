@@ -1,7 +1,7 @@
 import { createSSRApp } from 'vue'
 import App from '@/App.vue'
 import setupPlugins from '@/plugins'
-import 'tdesign-uniapp/common/style/theme/index.css'
+import '@/static/styles/tdesign-theme.css' // TDesign 自定义主题
 import 'virtual:uno.css' // UnoCSS
 
 export const createApp = () => {

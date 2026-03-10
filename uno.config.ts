@@ -40,6 +40,7 @@ const rpxPropsMap: Record<string, string[]> = {
   'inset': ['top', 'right', 'bottom', 'left'],
   'leading': ['line-height'],
   'text': ['font-size'],
+  'rounded': ['border-radius'],
 }
 
 // 设置rpx为默认单位

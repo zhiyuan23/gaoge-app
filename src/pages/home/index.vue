@@ -1,26 +1,20 @@
 <template>
   <view class="page">
-    <view class="mx-20 pt-20">
-      <t-swiper
-        :current="1"
-        :autoplay="true"
-        :duration="500"
-        :interval="5000"
-        :list="swiperList"
-        :navigation="{ type: 'dots-bar' }"
-      />
-    </view>
+    <ScheduleTab v-if="activeTab === 'schedule'" />
+    <PlayerTab v-else-if="activeTab === 'player'" :active="activeTab === 'player'" />
+    <TeamTab v-else />
 
     <t-tab-bar
-      :value="currentTab"
+      :value="activeTab"
       shape="round"
       theme="tag"
+      :z-index="9999"
       :split="false"
-      @change="onChange"
+      @change="onTabChange"
     >
       <t-tab-bar-item
-        v-for="(item, index) in tabbarList"
-        :key="index"
+        v-for="item in tabbarList"
+        :key="item.value"
         :value="item.value"
         :icon="item.icon"
         :aria-label="item.ariaLabel"
@@ -30,54 +24,37 @@
 </template>
 
 <script setup lang="ts">
-const imageCdn = 'https://tdesign.gtimg.com/mobile/demos'
+import PlayerTab from '../player/index.vue'
+import ScheduleTab from '../schedule/index.vue'
+import TeamTab from '../team/index.vue'
 
-// 轮播图
-const swiperList = [
-  {
-    value: `${imageCdn}/swiper1.png`,
-    ariaLabel: '图片1',
-  },
-  {
-    value: `${imageCdn}/swiper2.png`,
-    ariaLabel: '图片2',
-  },
-  {
-    value: `${imageCdn}/swiper1.png`,
-    ariaLabel: '图片1',
-  },
-  {
-    value: `${imageCdn}/swiper2.png`,
-    ariaLabel: '图片2',
-  },
-]
+// 首页 Tab 值类型
+type HomeTab = 'schedule' | 'player' | 'team'
 
-// 底部导航
-const currentTab = ref('home')
-const tabbarList = ref([
-  {
-    value: 'home',
-    icon: 'home',
-    ariaLabel: '首页',
-  },
-  {
-    value: 'app',
-    icon: 'app',
-    ariaLabel: '软件',
-  },
-  {
-    value: 'chat',
-    icon: 'chat',
-    ariaLabel: '聊天',
-  },
-  {
-    value: 'user',
-    icon: 'user',
-    ariaLabel: '我的',
-  },
-])
+// 当前激活 Tab
+const activeTab = ref<HomeTab>('schedule')
 
-const onChange = (e: any) => {
-  currentTab.value = e.value
+// 底部导航配置
+const tabbarList = [
+  {
+    value: 'schedule',
+    icon: 'time',
+    ariaLabel: '赛历',
+  },
+  {
+    value: 'player',
+    icon: 'usergroup',
+    ariaLabel: '球员',
+  },
+  {
+    value: 'team',
+    icon: 'dashboard',
+    ariaLabel: '球队',
+  },
+] as const
+
+// Tab 切换事件
+const onTabChange = (e: { value: HomeTab }) => {
+  activeTab.value = e.value
 }
 </script>
