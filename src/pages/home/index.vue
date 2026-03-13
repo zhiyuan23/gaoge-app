@@ -1,9 +1,5 @@
 <template>
   <view class="page">
-    <ScheduleTab v-if="activeTab === 'schedule'" />
-    <PlayerTab v-else-if="activeTab === 'player'" :active="activeTab === 'player'" />
-    <TeamTab v-else />
-
     <t-tab-bar
       :value="activeTab"
       shape="round"
@@ -24,10 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import PlayerTab from '../player/index.vue'
-import ScheduleTab from '../schedule/index.vue'
-import TeamTab from '../team/index.vue'
-
 // 首页 Tab 值类型
 type HomeTab = 'schedule' | 'player' | 'team'
 

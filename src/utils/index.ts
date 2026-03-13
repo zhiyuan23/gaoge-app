@@ -1,3 +1,5 @@
+export * from './auth'
+export * from './cloud'
 export * from './common'
 export * from './eventBus'
 export * from './file'

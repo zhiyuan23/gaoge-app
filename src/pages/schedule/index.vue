@@ -35,6 +35,29 @@
             </text>
           </view>
 
+          <view v-if="!isSelectedMatchDay" class="flex-center justify-between mb-12 text-26">
+            <text class="text-#6b7280">
+              农历/节日
+            </text>
+            <text class="text-#111827 font-500">
+              {{ selectedLunarInfo.lunarDay || '—' }}{{ selectedLunarInfo.festival || selectedLunarInfo.term ? ` · ${selectedLunarInfo.festival || selectedLunarInfo.term}` : '' }}
+            </text>
+          </view>
+
+          <view v-else class="flex-center justify-between mb-12 text-26">
+            <text class="text-#6b7280">
+              比赛场地
+            </text>
+            <view class="flex items-center gap-10">
+              <text class="text-#111827 font-500">
+                {{ selectedVenue?.name }}
+              </text>
+              <t-button size="extra-small" theme="primary" @click="openVenueLocation">
+                去导航
+              </t-button>
+            </view>
+          </view>
+
           <view class="flex-center justify-between mb-12 text-26">
             <text class="text-#6b7280">
               状态
@@ -77,6 +100,8 @@
 </template>
 
 <script setup lang="ts">
+import calendar from 'solarday2lunarday'
+
 // 周展示文案
 const WEEKDAYS = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
 
@@ -139,11 +164,27 @@ const selectedDateText = computed(() => {
   return `${y}-${m}-${d}`
 })
 
+// 已选日期农历/节日信息
+const selectedLunarInfo = computed(() => getLunarInfo(selectedDateObj.value))
+
 // 已选日期是否处于比赛赛季（4 月到 11 月）
 const isSelectedInSeason = computed(() => isInMatchSeason(selectedDateObj.value))
 
 // 已选日期是否为比赛日
 const isSelectedMatchDay = computed(() => isMatchDay(selectedDateObj.value))
+
+// 已选日期比赛场地
+const selectedVenue = computed(() => {
+  if (!isSelectedMatchDay.value)
+    return null
+
+  return {
+    name: '腾辉体育1号场地（室内八人场）',
+    address: '沈阳市浑南区胜利南街地铁口南走300米',
+    latitude: 41.72,
+    longitude: 123.40,
+  }
+})
 
 // 已选日期状态信息
 const selectedStatus = computed(() => {
@@ -213,16 +254,37 @@ const goToNextMatchDay = () => {
 const formatCalendarDate = (day: any) => {
   const date = new Date(day.date)
 
-  if (!isMatchDay(date))
-    return day
+  const lunar = getLunarInfo(date)
 
-  const status = getMatchStatus(date, nowTs.value)
+  if (!isMatchDay(date)) {
+    return {
+      ...day,
+      className: `${day.className || ''} text-gray-700`,
+      prefix: lunar.festival || lunar.term || '',
+      suffix: lunar.lunarDay,
+    }
+  }
+
   return {
     ...day,
     className: `${day.className || ''} font-600 text-green-800 bg-green-100`,
     prefix: '⚽',
-    suffix: status.shortText,
+    suffix: '比赛',
   }
+}
+
+// 打开比赛场地导航
+const openVenueLocation = () => {
+  if (!selectedVenue.value)
+    return
+
+  const { name, address, latitude, longitude } = selectedVenue.value
+  uni.openLocation({
+    name,
+    address,
+    latitude,
+    longitude,
+  })
 }
 
 // 获取日期零点时间戳
@@ -266,6 +328,30 @@ const buildDefaultHolidayDates = (years: number[]) => {
 // 判断是否节假日
 const isHoliday = (date: Date) => {
   return holidayDateSet.value.has(getDateKey(date))
+}
+
+// 获取农历和节日信息
+const getLunarInfo = (date: Date) => {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+
+  try {
+    const lunar = calendar.solar2lunar(year, month, day) as any
+    return {
+      lunarDay: lunar.IDayCn || '',
+      festival: lunar.festival || lunar.lunarFestival || '',
+      term: lunar.Term || '',
+    }
+  }
+  catch (err) {
+    console.error('获取农历失败', err)
+    return {
+      lunarDay: '',
+      festival: '',
+      term: '',
+    }
+  }
 }
 
 // 判断是否处于比赛赛季（4 月到 11 月）
@@ -322,6 +408,6 @@ const findNextMatchDay = (baseDate: Date, includeToday: boolean) => {
 }
 
 :deep(.t-calendar__dates-item) {
-  margin: 0 !important;
+  margin: 4rpx !important;
 }
 </style>

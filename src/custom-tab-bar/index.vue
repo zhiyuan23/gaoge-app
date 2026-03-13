@@ -38,7 +38,7 @@ const tabItems = [
   },
   {
     value: 'player' as const,
-    icon: 'usergroup',
+    icon: 'dashboard',
     text: '球员',
     ariaLabel: '球员',
     path: '/pages/player/index',
