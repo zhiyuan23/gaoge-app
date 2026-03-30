@@ -110,15 +110,15 @@
     "vue-tsc": "^2.2.0"
   },
   "simple-git-hooks": {
-    "pre-commit": "pnpm lint-staged",
+    "pre-commit": "pnpm lint-staged && pnpm type-check",
     "commit-msg": "node ./scripts/verify-commit.js"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx}": "eslint --fix",
-    "*.{scss,css,style,html}": "stylelint --fix",
-    "*.vue": [
-      "eslint --fix",
-      "stylelint --fix"
+    "src/**/*.{js,ts,vue}": [
+      "eslint --max-warnings=0"
+    ],
+    "*.{scss,css,vue}": [
+      "stylelint --max-warnings=0"
     ]
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <view class="flex-center rounded-32 bg-bgSecondary px-30 w-640 h-64 border-1-solid-#e6e6e6">
+  <view class="flex-center bg-bgSecondary px-30 w-640 h-64 rounded-32 border-1-solid-#e6e6e6">
     <!-- 省市选择 -->
     <view class="flex items-center" @click="showCityPicker = true">
       <text class="pr-8 text-28">
